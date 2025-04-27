@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/pages/index.html" },
+    { "source": "/formulier", "destination": "/pages/formulier.html" },
+    { "source": "/success", "destination": "/pages/success.js" },
+    { "source": "/api/:path*", "destination": "/pages/api/:path*" }
+  ]
+}
