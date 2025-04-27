@@ -13,17 +13,35 @@ export default function Success() {
   }, [session_id]);
 
   if (loading) {
-    return <p>Even wachten... betaling wordt gecontroleerd...</p>;
+    return (
+      <div style={{ textAlign: 'center', marginTop: '100px' }}>
+        <h1>Even geduld...</h1>
+        <p>We controleren je betaling...</p>
+      </div>
+    );
   }
 
   return (
-    <div style={{ textAlign: 'center', marginTop: '50px' }}>
-      <h1>Gefeliciteerd!</h1>
-      <p>Je documenten zijn klaar om te downloaden:</p>
-      <a href={`/api/download-pdf?session_id=${session_id}`}>
-        <button style={{ padding: '10px 20px', backgroundColor: '#2458A1', color: 'white', border: 'none', borderRadius: '8px', fontSize: '16px', cursor: 'pointer' }}>
-          Download je documenten
-        </button>
+    <div style={{ fontFamily: 'Poppins, sans-serif', textAlign: 'center', padding: '60px 20px' }}>
+      <h1 style={{ color: '#2458A1', fontSize: '32px', marginBottom: '20px' }}>Gefeliciteerd!</h1>
+      <p style={{ fontSize: '18px', marginBottom: '40px' }}>
+        Jouw BV-opheffingsdocumenten zijn succesvol gegenereerd.<br />
+        Download ze direct hieronder:
+      </p>
+      <a
+        href={`/api/download-pdf?session_id=${session_id}`}
+        style={{
+          display: 'inline-block',
+          backgroundColor: '#2458A1',
+          color: 'white',
+          padding: '15px 30px',
+          fontSize: '18px',
+          fontWeight: 'bold',
+          borderRadius: '8px',
+          textDecoration: 'none',
+        }}
+      >
+        📄 Download Mijn Documenten
       </a>
     </div>
   );
