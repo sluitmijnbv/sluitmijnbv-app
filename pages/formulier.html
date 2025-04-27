@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SluitMijnBV.nl - Formulier</title>
+  <link rel="stylesheet" href="/styles/global.css">
+</head>
+<body>
+
+<header>
+  <h1>Vul je BV gegevens in</h1>
+</header>
+
+<main>
+  <form action="https://checkout.stripe.com/pay" method="GET">
+    <input type="text" name="bvName" placeholder="Naam van de BV" required>
+    <input type="text" name="kvkNumber" placeholder="KvK-nummer" required>
+    <input type="text" name="address" placeholder="Vestigingsadres" required>
+    <input type="text" name="directorName" placeholder="Naam bestuurder" required>
+    <input type="date" name="closureDate" required>
+    <button type="submit" class="button">Betaal en sluit mijn BV</button>
+  </form>
+</main>
+
+<footer>
+  &copy; 2025 SluitMijnBV.nl
+</footer>
+
+</body>
+</html>
