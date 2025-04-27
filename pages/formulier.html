@@ -5,27 +5,89 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SluitMijnBV.nl - Formulier</title>
   <link rel="stylesheet" href="/styles/global.css">
+  <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
 
-<header>
-  <h1>Vul je BV gegevens in</h1>
+<header class="header">
+  <div class="container">
+    <h1>Sluit jouw BV in enkele minuten</h1>
+    <p>Vul hieronder jouw BV-gegevens in en sluit direct veilig af.</p>
+  </div>
 </header>
 
-<main>
-  <form action="https://checkout.stripe.com/pay" method="GET">
-    <input type="text" name="bvName" placeholder="Naam van de BV" required>
-    <input type="text" name="kvkNumber" placeholder="KvK-nummer" required>
-    <input type="text" name="address" placeholder="Vestigingsadres" required>
-    <input type="text" name="directorName" placeholder="Naam bestuurder" required>
-    <input type="date" name="closureDate" required>
-    <button type="submit" class="button">Betaal en sluit mijn BV</button>
-  </form>
+<main class="main">
+  <section class="section-light">
+    <div class="container">
+
+      <form id="payment-form" class="form">
+        <div class="form-group">
+          <label for="bvName">Naam van de BV</label>
+          <input type="text" id="bvName" name="bvName" required>
+        </div>
+
+        <div class="form-group">
+          <label for="kvkNumber">KvK-nummer</label>
+          <input type="text" id="kvkNumber" name="kvkNumber" required>
+        </div>
+
+        <div class="form-group">
+          <label for="address">Vestigingsadres</label>
+          <input type="text" id="address" name="address" required>
+        </div>
+
+        <div class="form-group">
+          <label for="directorName">Naam bestuurder</label>
+          <input type="text" id="directorName" name="directorName" required>
+        </div>
+
+        <div class="form-group">
+          <label for="closureDate">Datum van ontbinding</label>
+          <input type="date" id="closureDate" name="closureDate" required>
+        </div>
+
+        <button type="submit" class="button-primary">Betaal en sluit mijn BV</button>
+      </form>
+
+    </div>
+  </section>
 </main>
 
-<footer>
-  &copy; 2025 SluitMijnBV.nl
+<footer class="footer">
+  <div class="container">
+    <p>&copy; 2025 SluitMijnBV.nl - Alle rechten voorbehouden</p>
+  </div>
 </footer>
+
+<script>
+const stripe = Stripe('pk_live_JOUW_PUBLIC_KEY_HIER'); // <-- VUL HIER JOUW PUBLISHABLE KEY IN
+
+const form = document.getElementById('payment-form');
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const formData = {
+    bvName: document.getElementById('bvName').value,
+    kvkNumber: document.getElementById('kvkNumber').value,
+    address: document.getElementById('address').value,
+    directorName: document.getElementById('directorName').value,
+    closureDate: document.getElementById('closureDate').value,
+  };
+
+  const response = await fetch('/api/create-checkout-session', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(formData),
+  });
+
+  const session = await response.json();
+
+  const result = await stripe.redirectToCheckout({ sessionId: session.id });
+  if (result.error) {
+    alert(result.error.message);
+  }
+});
+</script>
 
 </body>
 </html>
